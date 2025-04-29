@@ -1,16 +1,8 @@
 ## Project Overview:
-#### Project setup
-- `npm create vite@latest "project-name"`
-- `> "react"`
-- `> "javascript"`
-- `cd "project-name"`
-- `npm install styled-components`(styling option)
-- `npm install`
-- `npm install react-router-dom`
-- `npm install axios`
-- 
-- `npm run dev`
 
+**The initiative code has been moved to branch** [feature/initiative-codebase](https://github.com/TVATDCI/effect-params-context-reduce/tree/feature/initiative-codebase)
+
+**The plan is improving on enhancing readability, scalability and maintainability by extracting the routing logic of App.jsx into separate component, such as AppRotes, to avoid cluttering. If the application glows**:upside_down_face:
 
 #### This mini project will include:
 
@@ -19,7 +11,7 @@
 - **Global State Management:** Manage global state for user information using useContext and useReducer.
 - **Fetching Data:** Use `Axios` to fetch user data from an API inside `useEffect`.
 
-### Project Structure
+### Project Basic Structure
 
 ```bash
 /src
