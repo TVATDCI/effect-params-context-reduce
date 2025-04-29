@@ -24,9 +24,8 @@ const UserList = () => {
   return (
     <div className="outlet">
       <h2>User List</h2>
-      <p>
+      <p className="p-head">
         Take a look at the comment inside, below the component, for more info!
-        <br />
         <br />
         The user user list and details are coming from{" "}
         <a
@@ -42,10 +41,23 @@ const UserList = () => {
           typicode.com
         </a>{" "}
         API.
+        <br />
+        The data is fetched using axios and displayed in the UserList component.
+        <br />
+        The user details are displayed in the UserDetails component.
+        <br />
+        Click the user name (link) to see the user details.
       </p>
       <ul>
         {state.users.map((user) => (
-          <li key={user.id}>
+          <li
+            key={user.id}
+            style={{
+              listStyle: "none",
+              margin: "10px 0",
+              fontSize: "1.2rem",
+            }}
+          >
             <Link to={`/users/${user.id}`}>{user.name}</Link>
           </li>
         ))}

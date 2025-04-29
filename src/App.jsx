@@ -1,4 +1,3 @@
-import spaceCharter from "./assets/spacecharter.svg";
 import AppRoutes from "./AppRoutes";
 
 import { BrowserRouter as Router } from "react-router-dom";
@@ -9,9 +8,7 @@ import "./App.css";
 const App = () => {
   return (
     <UserProvider>
-      <Router>
-        <AppRoutes />
-      </Router>
+      <AppRoutes />
     </UserProvider>
   );
 };
