@@ -1,15 +1,23 @@
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import UserDetails from "./pages/UserDetails";
-import NotFound from "./NotFound";
+import Layout from "./Layout";
+import { ROUTES } from "./routes-paths";
+
+const Home = lazy(() => import("./pages/Home"));
+const UserDetails = lazy(() => import("./pages/UserDetails"));
+const NotFound = lazy(() => import("./NotFound"));
 
 const AppRoutes = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/users/:id" element={<UserDetails />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Layout>
+        <Routes>
+          <Route path={ROUTES.HOME} element={<Home />} />
+          <Route path={ROUTES.USER_DETAILS} element={<UserDetails />} />
+          <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
+        </Routes>
+      </Layout>
+    </Suspense>
   );
 };
 

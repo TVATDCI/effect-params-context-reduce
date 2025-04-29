@@ -20,6 +20,27 @@
   padding: 10px;
 }
 
+header {
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  background-color: black;
+}
+
+h1 {
+  color: #f37a09;
+  font-size: 3rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+.p-header {
+  color: #f9f9f9;
+  color: #969c9eaa;
+  font-style: italic;
+  padding: 10px;
+}
+
 p {
   color: #61dafbaa;
   line-height: 1.5;

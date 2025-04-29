@@ -10,6 +10,7 @@
 - **User Details Page:** Displays detailed information about a selected user by using useParams.
 - **Global State Management:** Manage global state for user information using useContext and useReducer.
 - **Fetching Data:** Use `Axios` to fetch user data from an API inside `useEffect`.
+- **More details on extra routes components COMING SOON!**
 
 ### Project Basic Structure
 
@@ -25,8 +26,14 @@
  ├── /pages
  │   ├── Home.jsx
  │   ├── UserDetails.jsx
+ ├── /assets
+ │   ├── logo.svg
  ├── App.jsx
+ ├── AppRoutes.jsx
+ ├── Layout.jsx
+ ├── routes-paths.js
  └── main.jsx
+ └── NotFound.jsx
 
 ```
 

@@ -5,35 +5,53 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const UserList = () => {
-    const { state, dispatch } = useContext(UserContext);
+  const { state, dispatch } = useContext(UserContext);
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get(
-                    "https://jsonplaceholder.typicode.com/users",
-                );
-                dispatch({ type: "SET_USERS", payload: response.data });
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchUsers();
-    }, [dispatch]);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/users"
+        );
+        dispatch({ type: "SET_USERS", payload: response.data });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUsers();
+  }, [dispatch]);
 
-    return (
-        <div className="outlet" >
-            <h2>User List</h2>
-            <p>Take a look at the comment inside, below the component, for more info!</p>
-            <ul>
-                {state.users.map((user) => (
-                    <li key={user.id}>
-                        <Link to={`/users/${user.id}`}>{user.name}</Link>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+  return (
+    <div className="outlet">
+      <h2>User List</h2>
+      <p>
+        Take a look at the comment inside, below the component, for more info!
+        <br />
+        <br />
+        The user user list and details are coming from{" "}
+        <a
+          href="https://jsonplaceholder.typicode.com/users"
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            textDecoration: "none",
+            color: "#007bff",
+            fontWeight: "bold",
+          }}
+        >
+          typicode.com
+        </a>{" "}
+        API.
+      </p>
+      <ul>
+        {state.users.map((user) => (
+          <li key={user.id}>
+            <Link to={`/users/${user.id}`}>{user.name}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default UserList;
