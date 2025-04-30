@@ -1,4 +1,4 @@
-# React Mini Project: User Management App
+# Project: Mini User Management App
 
 ## Project Overview
 
