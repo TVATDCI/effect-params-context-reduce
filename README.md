@@ -2,174 +2,201 @@
 
 ## Project Overview
 
-This project is a React-based application designed to demonstrate best practices in routing, state management, and component organization. The application fetches user data from an external API and displays it in a user-friendly interface. It includes features like lazy loading, centralized route management, and reusable components for scalability and maintainability.
+A React-based application demonstrating best practices in routing, state management, and component organization. This project was refactored from a student codebase to implement modern patterns including Tailwind CSS v4, API service layer, error boundaries, and mock authentication.
 
 ---
 
-**The initiative code has been moved to branch** [feature/initiative-codebase](https://github.com/TVATDCI/effect-params-context-reduce/tree/feature/initiative-codebase)
+## Repository Branches
 
-**The plan is improving on enhancing readability, scalability and maintainability by extracting the routing logic of App.jsx into separate component, such as AppRoutes, to avoid cluttering. If the application grows**:upside_down_face:
+| Branch                        | Description                                |
+| ----------------------------- | ------------------------------------------ |
+| `feature/initiative-codebase` | Original student code (before refactoring) |
+| `feature/update`              | Refactored code with modern patterns       |
 
-And eventually, i would like to add authentication or specific condition, guards or protection route too!
+---
 
 ## Features
 
-- **User List Page**: Displays a list of users fetched from an API.
-- **User Details Page**: Shows detailed information about a selected user using `useParams`.
-- **Global State Management**: Manages global state for user information using `useContext` and `useReducer`.
-- **Lazy Loading**: Implements React's `lazy` and `Suspense` for better performance by loading components only when needed.
-- **Centralized Routing**: All route paths are managed in a single `routes-paths.js` file for easy updates.
-- **Reusable Layout Component**: A shared layout with a company header is used across all pages.
-- **Fetching Data**: Uses `Axios` to fetch user data from an API inside `useEffect`.
-- **Styled Components**: Uses `styled-components` for component-level styling.
-- **Protected Routes**: Includes `ProtectedRoute` component for route guarding.
+- **User List Page**: Displays a list of users fetched from an API with loading and error states
+- **User Details Page**: Shows detailed information about a selected user (protected route)
+- **Global State Management**: Uses `useContext` and `useReducer` for user state
+- **Lazy Loading**: React's `lazy` and `Suspense` for better performance
+- **Centralized Routing**: Route paths managed in `routes-paths.js`
+- **API Service Layer**: Axios instance with interceptors for clean API calls
+- **Error Handling**: ErrorBoundary component and ErrorMessage UI
+- **Loading States**: Loading component with spinner
+- **Mock Authentication**: Login/Logout flow with protected routes
+- **Tailwind CSS v4**: Modern utility-first styling with custom theme
+
+---
+
+## Tech Stack
+
+| Technology       | Version | Purpose               |
+| ---------------- | ------- | --------------------- |
+| React            | ^19.2.0 | UI Framework          |
+| React Router DOM | ^7.9.6  | Client-side routing   |
+| Axios            | ^1.13.5 | HTTP requests         |
+| Tailwind CSS     | ^4.0.0  | Styling               |
+| PropTypes        | ^15.8.1 | Runtime type checking |
+| Vite             | ^6.2.0  | Build tool            |
+| ESLint           | ^9.22.0 | Linting               |
 
 ---
 
 ## API Used
 
-The application fetches user data from the following API:
-[https://jsonplaceholder.typicode.com/users](https://jsonplaceholder.typicode.com/users)
+User data is fetched from: [https://jsonplaceholder.typicode.com/users](https://jsonplaceholder.typicode.com/users)
 
-### Project Basic Structure
+---
+
+## Project Structure
 
 ```bash
 /src
- ├── /components
- │   ├── UserList.jsx
- │   ├── UserProfile.jsx
- ├── /context
- │   ├── UserContext.jsx
- ├── /reducers
- │   ├── userReducer.js
- ├── /pages
- │   ├── Home.jsx
- │   ├── UserDetails.jsx
- ├── /assets
- │   ├── d-skull.svg
- │   ├── spacecharter.svg
- ├── App.jsx
- ├── AppRoutes.jsx
- ├── App.css
- ├── index.css
- ├── Layout.jsx
- ├── NotFound.jsx
- ├── ProtectedRoute.jsx
- ├── routes-paths.js
- └── main.jsx
+├── /components
+│   ├── /common
+│   │   ├── ErrorBoundary.jsx    # Catches React errors
+│   │   ├── ErrorMessage.jsx     # Error display component
+│   │   └── Loading.jsx          # Loading spinner
+│   ├── UserList.jsx             # User list with API call
+│   └── UserProfile.jsx          # User profile display
+├── /context
+│   ├── AuthContext.jsx          # Authentication state
+│   └── UserContext.jsx          # User data state
+├── /pages
+│   ├── Home.jsx                 # Home page with UserList
+│   ├── Login.jsx                # Mock login page
+│   └── UserDetails.jsx          # User details (protected)
+├── /reducers
+│   └── userReducer.js           # User state reducer
+├── /services
+│   ├── api.js                   # Axios instance
+│   └── userService.js           # User API methods
+├── /assets
+│   ├── d-skull.svg
+│   └── spacecharter.svg
+├── App.jsx                      # Main app with providers
+├── AppRoutes.jsx                # Route definitions
+├── Layout.jsx                   # Layout with header/nav
+├── NotFound.jsx                 # 404 page
+├── ProtectedRoute.jsx           # Route guard component
+├── routes-paths.js              # Route constants
+├── index.css                    # Tailwind CSS config
+└── main.jsx                     # Entry point
 ```
 
-### Detailed Explanation of Key Concepts
+---
 
-- `useParams:` This hook extracts parameters (like user ID) from the URL. We used it in the UserDetails component to fetch user data based on the ID present in the URL.
+## Key Concepts Demonstrated
 
-- `useContext:` Provides global state across components. Here, it is used to share the user list and selected user data between different components.
+### `useParams`
 
-- `useReducer:` A more powerful alternative to useState when dealing with complex state logic. We used it for managing user data and actions like setting users and selecting a user.
+Extracts URL parameters (user ID) in the UserDetails component.
 
-- `useEffect:` Used to handle side effects in functional components, like fetching data. In this project, we used it to fetch user data from an API when the component mounts or when the user ID changes.
+### `useContext`
 
-- `Axios:` Used for making HTTP requests to fetch user data from a mock API (jsonplaceholder.typicode.com).
+Provides global state via UserContext and AuthContext.
+
+### `useReducer`
+
+Manages complex user state with actions: `SET_USERS`, `SET_SELECTED_USER`, `SET_LOADING`, `SET_ERROR`.
+
+### `useEffect`
+
+Handles side effects like API calls on component mount.
+
+### API Service Layer
+
+Separates API logic from components using `services/api.js` and `services/userService.js`.
+
+### Error Boundary
+
+Class component that catches JavaScript errors in child components.
+
+### Protected Routes
+
+`ProtectedRoute` component checks authentication before rendering children.
 
 ---
 
----
+## How to Run
 
-## How to Run the Project
+```bash
+# Clone the repository
+git clone https://github.com/TVATDCI/effect-params-context-reduce.git
+cd effect-params-context-reduce
 
-1. Clone the repository:
+# Install dependencies
+npm install
 
-   ```bash
-   git clone https://github.com/TVATDCI/effect-params-context-reduce.git
-   cd effect-params-context-reduce
-   ```
+# Start development server
+npm run dev
 
-2. Switch to the appropriate branch:
-
-   ```bash
-   git checkout feature/initiative-codebase
-   ```
-
-3. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-4. Start the development server:
-
-   ```bash
-   npm start
-   ```
-
-5. Open the application in your browser:
-
-   ```
-   http://localhost:5173
-   ```
+# Open in browser
+http://localhost:5173/effect-params-context-reduce/
+```
 
 ---
 
-## Key Components
+## Usage
 
-### 1. **App.jsx**
+1. **Home Page**: View list of users from API
+2. **Login**: Click "Login" button, enter any username/password
+3. **User Details**: After login, click a user name to see details
+4. **Logout**: Click "Logout" to end session
 
-The main entry point of the application. Wraps the app with `UserProvider` for global state management and includes the `Router` for navigation.
+---
 
-### 2. **AppRoutes.jsx**
+## Refactoring Summary
 
-Handles all routing logic. Implements lazy loading for better performance and wraps routes with the `Layout` component for consistent UI.
+This project was refactored from a student codebase. See [`plans/refactoring-plan.md`](plans/refactoring-plan.md) for detailed changes.
 
-### 3. **Layout.jsx**
+### Issues Fixed
 
-A reusable layout component that includes a company header and wraps all routes.
+- Router duplication between `main.jsx` and `App.jsx`
+- Missing return statement in reducer default case
+- Incorrect asset import paths
+- No error handling UI
+- No loading states
+- Unused imports and console.log statements
 
-### 4. **UserList.jsx**
+### Improvements Added
 
-Fetches and displays a list of users from the API. Uses `Axios` and `useEffect` for data fetching.
-
-### 5. **UserDetails.jsx**
-
-Displays detailed information about a selected user. Uses `useParams` to extract the user ID from the URL.
-
-### 6. **UserContext.jsx**
-
-Manages global state for user information using `useContext` and `useReducer`.
-
-### 7. **routes.js**
-
-Centralized file for managing all route paths. Makes it easy to update paths in one place.
+- API service layer with Axios interceptors
+- ErrorBoundary for graceful error handling
+- Loading and ErrorMessage components
+- Mock authentication with protected routes
+- Tailwind CSS v4 with custom theme
+- PropTypes for runtime type checking
 
 ---
 
 ## Future Enhancements
 
-- Add more pages like `About`, `Contact`, or `Settings`.
-- Implement actual authentication logic for protected routes.
-- Add unit tests for components and reducers.
-- Improve styling with a CSS framework like Tailwind or Material-UI.
-- Add error boundaries for better error handling.
+- [ ] Add unit tests with Vitest
+- [ ] Implement real authentication (JWT/OAuth)
+- [ ] Add user search/filter functionality
+- [ ] Implement user pagination
+- [ ] Add more pages (About, Contact, Settings)
 
 ---
 
 ## Contributing
 
-Contributions are welcome! If you'd like to contribute, please fork the repository and submit a pull request.
+Contributions are welcome! Please fork the repository and submit a pull request.
 
 ---
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE) file.
 
 ---
 
 ## Acknowledgments
 
-- [React Router](https://reactrouter.com/) for client-side routing.
-- [Axios](https://axios-http.com/) for API requests.
-- [JSONPlaceholder](https://jsonplaceholder.typicode.com/) for providing a free API for testing.
-
-```
-Thanks for smiling ! 😆
-```
+- [React Router](https://reactrouter.com/) for client-side routing
+- [Axios](https://axios-http.com/) for API requests
+- [Tailwind CSS](https://tailwindcss.com/) for styling
+- [JSONPlaceholder](https://jsonplaceholder.typicode.com/) for the test API
