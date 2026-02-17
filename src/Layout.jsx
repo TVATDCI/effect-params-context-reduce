@@ -1,12 +1,12 @@
 import React from "react";
-import spaceCharter from "./assets/spacecharter.svg";
+import grad_glob from "./assets/grad_glob.png";
 
 const Layout = ({ children }) => {
   return (
     <div>
       <header>
         <a href="https://github.com/TVATDCI" target="_blank" rel="noreferrer">
-          <img src={spaceCharter} className="logo" alt="Company Logo" />
+          <img src={grad_glob} className="logo" alt="Company Logo" />
         </a>
         <h1>Company Header</h1>
         <p className="p-header">
