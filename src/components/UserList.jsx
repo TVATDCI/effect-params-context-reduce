@@ -1,64 +1,63 @@
-import { useEffect, useContext } from "react";
-import axios from "axios";
+import { useEffect, useContext, useCallback } from "react";
 
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import ErrorMessage from "./common/ErrorMessage";
+import Loading from "./common/Loading";
+import userService from "../services/userService";
 
 const UserList = () => {
   const { state, dispatch } = useContext(UserContext);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/users"
-        );
-        dispatch({ type: "SET_USERS", payload: response.data });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchUsers();
+  const fetchUsers = useCallback(async () => {
+    dispatch({ type: "SET_LOADING", payload: true });
+    try {
+      const users = await userService.getAllUsers();
+      dispatch({ type: "SET_USERS", payload: users });
+    } catch (error) {
+      dispatch({
+        type: "SET_ERROR",
+        payload: error.message || "Failed to fetch users",
+      });
+    }
   }, [dispatch]);
 
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
+
+  if (state.loading) {
+    return <Loading />;
+  }
+
+  if (state.error) {
+    return <ErrorMessage message={state.error} onRetry={fetchUsers} />;
+  }
+
   return (
-    <div className="outlet">
-      <h2>User List</h2>
-      <p className="p-head">
-        Take a look at the comment inside, below the component, for more info!
-        <br />
-        The user user list and details are coming from{" "}
+    <div className="bg-surface rounded-lg p-6 shadow-lg">
+      <h2 className="text-2xl font-bold text-primary mb-4">User List</h2>
+      <p className="text-text-muted mb-6 text-sm">
+        The user list and details are coming from{" "}
         <a
           href="https://jsonplaceholder.typicode.com/users"
           target="_blank"
           rel="noreferrer"
-          style={{
-            textDecoration: "none",
-            color: "#007bff",
-            fontWeight: "bold",
-          }}
+          className="text-secondary hover:underline font-semibold"
         >
           typicode.com
         </a>{" "}
-        API.
-        <br />
-        The data is fetched using axios and displayed in the UserList component.
-        <br />
-        The user details are displayed in the UserDetails component.
-        <br />
-        Click the user name (link) to see the user details.
+        API. Click a user name to see details.
       </p>
-      <ul>
+      <ul className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
         {state.users.map((user) => (
-          <li
-            key={user.id}
-            style={{
-              listStyle: "none",
-              margin: "10px 0",
-              fontSize: "1.2rem",
-            }}
-          >
-            <Link to={`/users/${user.id}`}>{user.name}</Link>
+          <li key={user.id}>
+            <Link
+              to={`/users/${user.id}`}
+              className="block bg-background hover:bg-gray-700 p-3 rounded transition-colors text-secondary hover:text-white"
+            >
+              {user.name}
+            </Link>
           </li>
         ))}
       </ul>
@@ -67,40 +66,3 @@ const UserList = () => {
 };
 
 export default UserList;
-
-/** UserList
- * 1. useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get(
-                    "API_URL",
-                );
-                dispatch({ type: "SET_USERS", payload: response.data });
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchUsers();
-    }, [dispatch]);
-
-    a. Create a UserList component.
-    b. Import the useEffect and useContext hooks from React.
-    c. Import the axios module.
-    d. Import the Link component from react-router-dom.
-    e. Import the UserContext from the UserContext file.
-    f. Create a UserList component.
-    g. Destructure the state and dispatch from the UserContext.
-    h. Create a useEffect hook.
-    i. Create a fetchUsers function.
-    j. Try to fetch the users from the API.
-    k. Dispatch an action to set the users in the state.
-    l. Catch any errors and log them to the console.
-    m. Call the fetchUsers function.
-    n. Add the dispatch function to the dependency array.
-    o. Return the JSX for the UserList component.
-    r. Map over the users in the state.
-    s. Return a list item with a key of user.id.
-    t. Add a Link component with the to prop set to /users/${user.id}.
-    u. Add the user.name as the text content of the Link component.
-    v. Now the data is fetched and displayed in the UserList component. Click the link, the path is set to /users/${user.id}. 
- */

@@ -1,15 +1,17 @@
 import AppRoutes from "./AppRoutes";
-
-import { BrowserRouter as Router } from "react-router-dom";
 import { UserProvider } from "./context/UserContext";
-
-import "./App.css";
+import { AuthProvider } from "./context/AuthContext";
+import ErrorBoundary from "./components/common/ErrorBoundary";
 
 const App = () => {
   return (
-    <UserProvider>
-      <AppRoutes />
-    </UserProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <UserProvider>
+          <AppRoutes />
+        </UserProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 };
 
