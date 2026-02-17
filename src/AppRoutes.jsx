@@ -7,6 +7,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Loading from "./components/common/Loading";
 
 const Home = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./pages/Login"));
 const UserDetails = lazy(() => import("./pages/UserDetails"));
 const NotFound = lazy(() => import("./NotFound"));
 
@@ -18,6 +19,7 @@ const AppRoutes = () => {
       <Layout>
         <Routes>
           <Route path={ROUTES.HOME} element={<Home />} />
+          <Route path={ROUTES.LOGIN} element={<Login />} />
           <Route
             path={ROUTES.USER_DETAILS}
             element={
