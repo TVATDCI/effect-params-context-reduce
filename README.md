@@ -8,7 +8,7 @@ This project is a React-based application designed to demonstrate best practices
 
 **The initiative code has been moved to branch** [feature/initiative-codebase](https://github.com/TVATDCI/effect-params-context-reduce/tree/feature/initiative-codebase)
 
-**The plan is improving on enhancing readability, scalability and maintainability by extracting the routing logic of App.jsx into separate component, such as AppRotes, to avoid cluttering. If the application glows**:upside_down_face:
+**The plan is improving on enhancing readability, scalability and maintainability by extracting the routing logic of App.jsx into separate component, such as AppRoutes, to avoid cluttering. If the application grows**:upside_down_face:
 
 And eventually, i would like to add authentication or specific condition, guards or protection route too!
 
@@ -18,10 +18,11 @@ And eventually, i would like to add authentication or specific condition, guards
 - **User Details Page**: Shows detailed information about a selected user using `useParams`.
 - **Global State Management**: Manages global state for user information using `useContext` and `useReducer`.
 - **Lazy Loading**: Implements React's `lazy` and `Suspense` for better performance by loading components only when needed.
-- **Centralized Routing**: All route paths are managed in a single `routes.js` file for easy updates.
+- **Centralized Routing**: All route paths are managed in a single `routes-paths.js` file for easy updates.
 - **Reusable Layout Component**: A shared layout with a company header is used across all pages.
 - **Fetching Data**: Uses `Axios` to fetch user data from an API inside `useEffect`.
-- - **More details on extra routes components COMING SOON!**
+- **Styled Components**: Uses `styled-components` for component-level styling.
+- **Protected Routes**: Includes `ProtectedRoute` component for route guarding.
 
 ---
 
@@ -45,17 +46,20 @@ The application fetches user data from the following API:
  │   ├── Home.jsx
  │   ├── UserDetails.jsx
  ├── /assets
- │   ├── logo.svg
+ │   ├── d-skull.svg
+ │   ├── spacecharter.svg
  ├── App.jsx
  ├── AppRoutes.jsx
+ ├── App.css
+ ├── index.css
  ├── Layout.jsx
+ ├── NotFound.jsx
+ ├── ProtectedRoute.jsx
  ├── routes-paths.js
  └── main.jsx
- └── NotFound.jsx
-
 ```
 
-### Detailed Explanation of Key Concepts:
+### Detailed Explanation of Key Concepts
 
 - `useParams:` This hook extracts parameters (like user ID) from the URL. We used it in the UserDetails component to fetch user data based on the ID present in the URL.
 
@@ -80,32 +84,26 @@ The application fetches user data from the following API:
    cd effect-params-context-reduce
    ```
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/TVATDCI/effect-params-context-reduce.git
-   cd effect-params-context-reduce
-   ```
-
-1. Switch to the appropriate branch:
+2. Switch to the appropriate branch:
 
    ```bash
    git checkout feature/initiative-codebase
    ```
 
-1. Install dependencies:
+3. Install dependencies:
 
    ```bash
    npm install
    ```
 
-1. Start the development server:
+4. Start the development server:
 
    ```bash
    npm start
    ```
 
-1. Open the application in your browser:
+5. Open the application in your browser:
+
    ```
    http://localhost:5173
    ```
@@ -147,9 +145,10 @@ Centralized file for managing all route paths. Makes it easy to update paths in 
 ## Future Enhancements
 
 - Add more pages like `About`, `Contact`, or `Settings`.
-- Implement authentication and protected routes.
+- Implement actual authentication logic for protected routes.
 - Add unit tests for components and reducers.
 - Improve styling with a CSS framework like Tailwind or Material-UI.
+- Add error boundaries for better error handling.
 
 ---
 
