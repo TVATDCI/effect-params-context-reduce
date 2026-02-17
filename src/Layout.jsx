@@ -30,6 +30,12 @@ const Layout = ({ children }) => {
           routed to. As it is also wrapped up with in UserProvider!
         </p>
         <div className="mt-4 flex justify-center gap-4 items-center">
+          <Link
+            to="/"
+            className="bg-surface hover:bg-gray-700 text-text border border-gray-600 font-bold py-1 px-4 rounded transition-colors text-sm"
+          >
+            Home
+          </Link>
           {isAuthenticated ? (
             <>
               <span className="text-text-muted text-sm">
