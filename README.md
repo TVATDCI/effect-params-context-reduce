@@ -2,16 +2,26 @@
 
 ## Project Overview
 
-A React-based application demonstrating best practices in routing, state management, and component organization. This project was refactored from a student codebase to implement modern patterns including Tailwind CSS v4, API service layer, error boundaries, and mock authentication.
+A React-based learning application demonstrating the `useEffect` → request params → context → `useReducer` pattern behind the repository's name: data fetched with `useEffect`, routed params picked up with `useParams`, global state shared through context, and reducer actions (`SET_USERS`, `SET_SELECTED_USER`, `SET_LOADING`, `SET_ERROR` — see `src/reducers/userReducer.js`). It was refactored from a student codebase to implement modern patterns including Tailwind CSS v4, an API service layer, error boundaries, and mock authentication. The refactoring history lives in [`plans/refactoring-plan.md`](plans/refactoring-plan.md).
+
+---
+
+## Live Demo
+
+Deployed on GitHub Pages:
+
+**https://tvatdci.github.io/effect-params-context-reduce/**
 
 ---
 
 ## Repository Branches
 
-| Branch                        | Description                                |
-| ----------------------------- | ------------------------------------------ |
-| `feature/initiative-codebase` | Original student code (before refactoring) |
-| `feature/update`              | Refactored code with modern patterns       |
+| Branch                        | Description                                                    |
+| ----------------------------- | -------------------------------------------------------------- |
+| `main`                        | Current development line (post-refactor, security-cleaned)     |
+| `gh-pages`                    | Deployed build output for GitHub Pages                         |
+| `feature/initiative-codebase` | Original student code (before refactoring)                     |
+| `feature/update`              | Refactored code with modern patterns                           |
 
 ---
 
@@ -32,21 +42,38 @@ A React-based application demonstrating best practices in routing, state managem
 
 ## Tech Stack
 
-| Technology       | Version | Purpose               |
-| ---------------- | ------- | --------------------- |
-| React            | ^19.2.0 | UI Framework          |
-| React Router DOM | ^7.9.6  | Client-side routing   |
-| Axios            | ^1.13.5 | HTTP requests         |
-| Tailwind CSS     | ^4.0.0  | Styling               |
-| PropTypes        | ^15.8.1 | Runtime type checking |
-| Vite             | ^6.2.0  | Build tool            |
-| ESLint           | ^9.22.0 | Linting               |
+| Technology       | Version   | Purpose               |
+| ---------------- | --------- | --------------------- |
+| React            | ^19.2.0   | UI Framework          |
+| React Router DOM | ^7.15.1   | Client-side routing   |
+| Axios            | ^1.16.0   | HTTP requests         |
+| Tailwind CSS     | ^4.0.0    | Styling               |
+| PropTypes        | ^15.8.1   | Runtime type checking |
+| Vite             | ^6.2.0    | Build tool            |
+| ESLint           | ^9.22.0   | Linting               |
+
+Dependency hygiene note: after the security update series (PRs #3–#5) the lockfile resolves to `vite@6.4.5` and `npm audit` reports **0 vulnerabilities**.
+
+---
+
+## Prerequisites
+
+- **Node.js** `^18.0.0 || ^20.0.0 || >=22.0.0` — the engines range Vite 6.4.5 declares
+- **npm** (comes with Node)
+- Tested with Node `v26.7.0` and npm `11.19.0`
+
+> **Troubleshooting note:** on current Node versions the dev server and build print a harmless `DEP0205` deprecation warning (`module.register()` is deprecated). It comes from Node's internals, not from this project's code, and can be ignored.
 
 ---
 
 ## API Used
 
-User data is fetched from: [https://jsonplaceholder.typicode.com/users](https://jsonplaceholder.typicode.com/users)
+User data is fetched from [https://jsonplaceholder.typicode.com](https://jsonplaceholder.typicode.com):
+
+- `GET /users` — user list (`services/userService.js` → `getAllUsers`)
+- `GET /users/:id` — single user (`getUserById`)
+
+The shared Axios instance (`src/services/api.js`) uses a 10s timeout and response interceptors that normalize error messages for network and server errors.
 
 ---
 
@@ -74,6 +101,7 @@ User data is fetched from: [https://jsonplaceholder.typicode.com/users](https://
 │   ├── api.js                   # Axios instance
 │   └── userService.js           # User API methods
 ├── /assets
+│   ├── grad_glob.png            # Spinning globe logo (header)
 │   ├── d-skull.svg
 │   └── spacecharter.svg
 ├── App.jsx                      # Main app with providers
@@ -137,14 +165,33 @@ npm run dev
 http://localhost:5173/effect-params-context-reduce/
 ```
 
+The dev path includes the project subpath because `vite.config.js` sets `base: "/effect-params-context-reduce/"` — the same base the GitHub Pages deployment uses.
+
+For a production build:
+
+```bash
+npm run build
+```
+
+---
+
+## Deploy to GitHub Pages
+
+```bash
+npm run build
+npm run deploy
+```
+
+`npm run deploy` publishes the `dist` folder to the `gh-pages` branch using the `gh-pages` npm package (currently pinned at `^6.1.1` after the PR #5 toolchain downgrade). Pages then serves the new build at the live demo URL above; nothing deploys automatically without running this command.
+
 ---
 
 ## Usage
 
 1. **Home Page**: View list of users from API
-2. **Login**: Click "Login" button, enter any username/password
+2. **Login**: Click "Login" in the header, enter any non-empty username and password
 3. **User Details**: After login, click a user name to see details
-4. **Logout**: Click "Logout" to end session
+4. **Logout**: Click "Logout" in the header to end the session
 
 ---
 
@@ -174,10 +221,14 @@ This project was refactored from a student codebase. See [`plans/refactoring-pla
 
 ## Future Enhancements
 
+Tracked in [`plans/refactoring-plan.md`](plans/refactoring-plan.md):
+
 - [ ] Add unit tests with Vitest
 - [ ] Implement real authentication (JWT/OAuth)
 - [ ] Add user search/filter functionality
 - [ ] Implement user pagination
+- [ ] Add React Query for data fetching
+- [ ] Migrate to TypeScript
 - [ ] Add more pages (About, Contact, Settings)
 
 ---
@@ -190,7 +241,7 @@ Contributions are welcome! Please fork the repository and submit a pull request.
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file.
+No license file is included in this repository yet.
 
 ---
 
